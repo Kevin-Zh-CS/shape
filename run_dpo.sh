@@ -1,39 +1,3 @@
-
-## TITA: Token-Wise Inference-Time Alignment for Vision-Language Models
-
-### Install
-
-**Create a conda environment and install packages**
-
-```
-conda create -n tita python==3.10 -y
-conda activate tita
-pip install torch==2.0.1 torchvision==0.15.2
-pip install -e .
-```
-
-### Dataset
-
-**We expect the ****image dataset** to have the following structure:
-
-```
-data/
-|-- texvqa/
-|---- train_images/
-......
-|-- ocrvqa/
-|---- images/
-```
-
-**You can download the image on the official website.**
-
-### Training
-
-You need to first download reward model of **[tiny-llava](https://huggingface.co/bczhou/tiny-llava-v1-hf)** and the pretrained model **[llava-1.5-7b](https://huggingface.co/liuhaotian/llava-v1.5-7b)**.
-
-**Training reward model with DPO:**
-
-```
 MODEL_VERSION=llava_tiny
 
 OCR_DPO_DATA=data/step2/ocrvqa/ocrvqa_answer_file_8k_dpo.jsonl
@@ -77,14 +41,5 @@ deepspeed --include localhost:0,1,2,3 seva/train_dpo_ours.py \
     --report_to wandb \
     --run_name ${MODEL_VERSION} \
     --beta 0.1
-```
-
-### Inference
-```
-python inference.py
-```
 
 
-
-### Evaluation
-**Refer to** [LLaVa-1.5](https://github.com/haotian-liu/LLaVA/blob/main/docs/Evaluation.md) for a comprehension evaluation of multiple Benchmarks.
